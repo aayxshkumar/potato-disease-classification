@@ -4,16 +4,11 @@
 
 Clone the repository in your System.
 
-
-Get inside `api` folder
-
 ```bash
 cd frontend
 ```
 ```bash
 npm install
-```
-```bash
 npm run start
 ```
 
