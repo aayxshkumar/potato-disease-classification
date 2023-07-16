@@ -2,7 +2,8 @@
 
 ## To-Run:
 
-Clone the repository to your System.
+Clone the repository in your System.
+
 
 Get inside `api` folder
 
@@ -15,5 +16,6 @@ npm install
 ```bash
 npm run start
 ```
+
 Data-Set from [kaggle](https://www.kaggle.com/arjuntejaswi/plant-village).
 
