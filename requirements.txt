@@ -1,0 +1,10 @@
+# Libraries imported by the notebooks in potato-disease-classification/Training,
+# pinned to current releases. The notebooks were last run with TensorFlow 2.x
+# before Keras 3; see "Running it today" in README.md.
+ipython==9.18.0
+matplotlib==3.11.2
+numpy==2.5.4
+tensorflow==2.21.0
+# Needed by ImageDataGenerator in Untitled.ipynb
+pillow==13.0.0
+scipy==1.18.1
