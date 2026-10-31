@@ -1,0 +1,52 @@
+name: CI
+
+on:
+  push:
+  pull_request:
+
+jobs:
+  notebooks:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+          cache: pip
+          cache-dependency-path: |
+            requirements.txt
+            requirements-dev.txt
+
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r requirements-dev.txt
+
+      - name: Validate notebooks
+        run: |
+          python - <<'PY'
+          import glob
+          import warnings
+
+          import nbformat
+
+          paths = [p for p in glob.glob("**/*.ipynb", recursive=True) if ".ipynb_checkpoints" not in p]
+          assert paths, "no notebooks found"
+          for path in paths:
+              with warnings.catch_warnings():
+                  warnings.simplefilter("error")
+                  nb = nbformat.read(path, as_version=nbformat.NO_CONVERT)
+                  nbformat.validate(nb)
+              print(f"valid: {path}")
+          PY
+
+      - name: Check notebook imports
+        env:
+          MPLBACKEND: Agg
+          TF_CPP_MIN_LOG_LEVEL: "2"
+        run: |
+          python -c "import IPython.display, matplotlib.pyplot, numpy, PIL, scipy, tensorflow as tf; from tensorflow.keras import layers, models; from tensorflow.keras.preprocessing.image import ImageDataGenerator; print('tensorflow', tf.__version__)"
+
+      - name: Compile API
+        run: python -m py_compile potato-disease-classification/api/main.py
